@@ -1,58 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Birthday</title>
-    <link rel="stylesheet" href="birthdaystyles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Happy+Monkey&family=Orbitron:wght@400;800&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="header">
-      <h1>Today is Saju's Birthday 🎉</h1>
-      <img id="bff-img" src="images/Saju.jpg" alt="" />
-      <h2 id="bday-age">29 years old</h2>
-      <h4 id="bday-date">23.11.1993</h4>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 🎉</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding: 50px 20px;
+      overflow-y: auto;
+    }
 
-    <div class="gift-section">
-      <h2 class="gift-title">Here's how happy I am for you 🥳</h2>
-      <h3 class="gift-hint">(Hover over OR touch & hold the gift to see it)</h3>
-      <div class="gift-img" id="gift-img-happy"></div>
-    </div>
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
 
-    <div class="gift-section">
-      <h2 class="gift-title">How people react when you enter the room 😍</h2>
-      <div class="gift-img" id="gift-img-hot"></div>
-    </div>
+    img {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      margin-top: 25px;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
 
-    <div class="gift-section">
-      <h2 class="gift-title">If I had to describe you in ONE word 👇</h2>
-      <div class="gift-img" id="gift-img-genius"></div>
-    </div>
+    img.visible {
+      opacity: 1;
+    }
 
-    <div class="gift-section">
-      <h2 class="gift-title">The only person as badass as you 💪</h2>
-      <div class="gift-img" id="gift-img-badass"></div>
-    </div>
+    button {
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-    <div class="gift-section">
-      <h2 class="gift-title">This one's for you my brother 🥂</h2>
-      <div class="gift-img" id="gift-img-cheers"></div>
-    </div>
-    <div>
-      <p id="footer">
-        Want to create your own Birthday GIF site? Take
-        <a href="https://jeetujayson.com" target="_blank">
-          this HTML & CSS Course</a
-        >
-      </p>
-    </div>
-  </body>
+    button:hover {
+      background: #e91e63;
+      transform: scale(1.05);
+    }
+
+    /* 📱 Bigger image for mobile */
+    @media (max-width: 600px) {
+      h1 { font-size: 2em; }
+      img { 
+        width: 320px; 
+        height: 320px; 
+      }
+      button { 
+        font-size: 1em; 
+        padding: 12px 24px; 
+      }
+    }
+
+    /* Optional: slightly smaller size for very small phones */
+    @media (max-width: 400px) {
+      img {
+        width: 280px;
+        height: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Hidden Birthday photo -->
+  <img src="img.png" alt="Birthday Photo" id="birthday-photo" />
+
+  <br>
+  <button id="launchBtn">Click Here 🎁</button>
+
+  <!-- Celebration music -->
+  <audio id="celebrationMusic" src="https://www.orangefreesounds.com/wp-content/uploads/2016/08/Happy-birthday-instrumental.mp3" loop></audio>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const button = document.getElementById('launchBtn');
+    const music = document.getElementById('celebrationMusic');
+    const photo = document.getElementById('birthday-photo');
+
+    function launchConfetti() {
+      const duration = 4 * 1000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    button.addEventListener('click', async () => {
+      // Launch confetti
+      launchConfetti();
+
+      // Play music (looping)
+      try {
+        await music.play();
+      } catch (e) {
+        console.warn("Audio play blocked:", e);
+      }
+
+      // Show the image
+      photo.classList.add('visible');
+
+      // Update button
+      button.innerText = "🎉 Happy Birthday!";
+      button.disabled = true;
+    });
+  </script>
+</body>
 </html>
